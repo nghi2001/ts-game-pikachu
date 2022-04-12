@@ -100,6 +100,36 @@ function checkLineY(x1: number,x2: number,y: number,arr : any, id?:number,condis
     return result;
 }
 
+function checkLineLY (point1 : any, point2 : any, arr: any) {
+    let pMinY = point1;
+    let pMaxY = point2;
+
+    if( point1.y > point2.y ) {
+        pMinY = point2;
+        pMaxY = point1;
+    }
+
+    if( checkLineX(pMinY.y,pMaxY.y,pMinY.x,arr) && checkLineY(pMinY.x,pMaxY.x,pMaxY.y,arr)) {
+        console.log('check L',true);
+        return true
+    }
+}
+
+function checkLineLX (point1 : any, point2 : any, arr: any) {
+    let pMinY = point1;
+    let pMaxY = point2;
+
+    if( point1.x > point2.x ) {
+        pMinY = point2;
+        pMaxY = point1;
+    }
+
+    if( checkLineX(pMinY.y,pMaxY.y,pMinY.x,arr) && checkLineY(pMinY.x,pMaxY.x,pMaxY.y,arr)) {
+        console.log('check L',true);
+        return true
+    }
+}
+
 function checkRectX(point1 : any,point2 : any, arr : any){
     let pMinY = point1;
     let pMaxY = point2;
@@ -174,7 +204,9 @@ function checkMoreLineX (point1 : any , point2 : any, type : number, arr : any) 
 
         (type == -1 ? newy -= 1 : newy +=1);
         // console.log('a',arr[newy][pMinY.x],checkLineY(pMinY.x,pMaxY.x,newy,arr,0,'<='));
-        
+        if(arr[newy] === undefined) {
+            return false
+        }
         while(arr[newy][pMinY.x] == null && arr[newy] [pMaxY.x] == null) {
             console.log(11);
             if(checkLineY(pMinY.x,pMaxY.x,newy,arr,0,'<=')){
@@ -328,57 +360,71 @@ createListPokemon(list_pokemon)
             console.log(queue);
             if(queue[0].id === queue[1].id){
                 
+                if(queue[0].x === queue[1].x){
+                    console.log('check x');
+                    
+                   let result = checkLineX(queue[0].y,queue[1].y,queue[0].x,list_pokemon,queue[0].id as number);
+                   if(result === true){
+                       del()
+                       return end()
+                   }
+               
+           }
+           
+           if(queue[0].y == queue[1].y){
+                   console.log('check y');
+                   
+                   let result = checkLineY(queue[0].x,queue[1].x,queue[0].y,list_pokemon,queue[0].id);
+                   
+                   if(result === true){
+
+                       del() 
+                       return end()   
+                   }
+
+           }
+                if(checkLineLY(queue[0],queue[1],list_pokemon)){
+                    del()
+                    return end()
+                }if(checkLineLX(queue[0],queue[1],list_pokemon)){
+                    del()
+                     return end()
+                }
                 if (checkMoreLineX(queue[0],queue[1],-1,list_pokemon) || checkMoreLineX(queue[0],queue[1],1,list_pokemon)) {
                     del()
+                    return end()
                 }
                 if(checkMoreLineY( queue[0] , queue[1], -1 , list_pokemon ) || checkMoreLineY( queue[0] , queue[1], 1 , list_pokemon )) {
                     console.log('check U');
                     
                     del()
+                    return end()
                 }
-                else if(queue[0].x === queue[1].x){
-                         console.log('check x');
-                         
-                        let result = checkLineX(queue[0].y,queue[1].y,queue[0].x,list_pokemon,queue[0].id as number);
-                        if(result === true){
-                            del()
-                        }
-                    
-                }
-                
-                else if(queue[0].y == queue[1].y){
-                        console.log('check y');
-                        
-                        let result = checkLineY(queue[0].x,queue[1].x,queue[0].y,list_pokemon,queue[0].id);
-                        
-                        if(result === true){
-    
-                            del()    
-                        }
-    
-                }
-                
-                else {
                     
                     
                     if(checkRectX(queue[0],queue[1],list_pokemon)){
                         // console.log(checkRectX(queue[0],queue[1],list_pokemon));
                         del()
+                        return end()
                     }
     
-                    else if(checkRectY(queue[0],queue[1],list_pokemon)){
+                    if(checkRectY(queue[0],queue[1],list_pokemon)){
                         // console.log(checkRectY(queue[0],queue[1],list_pokemon));
                         del()
+                        return end()
                     }
-                }
+                
                 
     
             }
-            let elems = document.querySelectorAll(".boder");
-    
-            elems.forEach(el => {
-                el.classList.remove('boder')
-            })
-            return queue = []
+            function end () {
+                
+                let elems = document.querySelectorAll(".boder");
+        
+                elems.forEach(el => {
+                    el.classList.remove('boder')
+                })
+                return queue = []
+            }
         }
     }
