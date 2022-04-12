@@ -239,7 +239,7 @@ function checkMoreLineY(point1, point2, type, arr) {
         }
     }
 }
-const pokemon_number = 1;
+const pokemon_number = 5;
 var queue = [];
 var list_pokemon = new Array;
 const getPokemon = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -312,8 +312,15 @@ function addWaitCheck(x, y, id, el) {
     if (queue.length > 1) {
         console.log(queue);
         if (queue[0].id === queue[1].id) {
+            if (queue[0].x == queue[1].x && queue[0].y == queue[1].y) {
+                return end();
+            }
             if (queue[0].x === queue[1].x) {
                 console.log('check x');
+                if (queue[0].x == 0 || queue[0].y == list_pokemon[0].length - 1) {
+                    del();
+                    return end();
+                }
                 let result = checkLineX(queue[0].y, queue[1].y, queue[0].x, list_pokemon, queue[0].id);
                 if (result === true) {
                     del();
@@ -321,6 +328,13 @@ function addWaitCheck(x, y, id, el) {
                 }
             }
             if (queue[0].y == queue[1].y) {
+                if (queue[0].x == queue[1].x && queue[0].y == queue[1].y) {
+                    return end();
+                }
+                if (queue[0].y == 0 || queue[0].y == list_pokemon.length - 1) {
+                    del();
+                    return end();
+                }
                 console.log('check y');
                 let result = checkLineY(queue[0].x, queue[1].x, queue[0].y, list_pokemon, queue[0].id);
                 if (result === true) {
@@ -356,6 +370,7 @@ function addWaitCheck(x, y, id, el) {
                 return end();
             }
         }
+        end();
         function end() {
             let elems = document.querySelectorAll(".boder");
             elems.forEach(el => {
