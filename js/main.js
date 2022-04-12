@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+let score = 0;
 /*
     Check line X Y for checkRect Function
 */
@@ -305,6 +306,8 @@ function addWaitCheck(x, y, id, el) {
         (_b = queue[1].el.querySelector('img')) === null || _b === void 0 ? void 0 : _b.remove();
         list_pokemon[queue[0].y][queue[0].x] = null;
         list_pokemon[queue[1].y][queue[1].x] = null;
+        score++;
+        document.querySelector('h2 span').textContent = (score + 1).toString();
     }
     if (queue.length > 1) {
         console.log(queue);

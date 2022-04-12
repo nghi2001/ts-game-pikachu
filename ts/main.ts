@@ -9,6 +9,8 @@ type Pokemon={
     id:number,
     urlimg:string
 }
+let score = 0
+
 
 /*
     Check line X Y for checkRect Function
@@ -355,6 +357,8 @@ createListPokemon(list_pokemon)
             queue[1].el.querySelector('img')?.remove();
             list_pokemon[queue[0].y][queue[0].x]=null;
             list_pokemon[queue[1].y][queue[1].x]=null;
+            score ++;
+            document.querySelector('h2 span')!.textContent = (score +1).toString();
         }
         if(queue.length > 1){
             console.log(queue);
